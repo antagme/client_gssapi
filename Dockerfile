@@ -2,7 +2,7 @@ FROM fedora
 MAINTAINER "Antonia Aguado Mercado" <nomail@gmail.com> 
 
 #installs
-RUN dnf install -y procps openldap openldap-servers openldap-clients krb5-workstation krb5-server-ldap cyrus-sasl-gssapi cyrus-sasl-ldap nss-pam-ldapd supervisor cronie zabbix-agent python-ldap
+RUN dnf install -y procps openldap openldap-clients krb5-workstation cyrus-sasl-gssapi cyrus-sasl-ldap nss-pam-ldapd supervisor pam_krb5 sssd authconfig zabbix-agent ; exit 0
 # directoris
 RUN mkdir /opt/docker
 RUN mkdir /var/tmp/home
@@ -11,7 +11,6 @@ RUN mkdir /var/tmp/home/2asix
 #Copy github to dockerhub build
 COPY scripts /scripts/
 COPY files /opt/docker
-RUN chmod +x /scripts/ldapstats.py & crontab -l | { cat; echo "* * * * * /scripts/ldapstats.py";} | crontab -
 RUN cp /opt/docker/supervisord.ini /etc/supervisord.d/
 RUN cp /opt/docker/ns* /etc/
 RUN cp -f /opt/docker/ldap.conf /etc/openldap/
@@ -22,13 +21,7 @@ RUN cp /opt/docker/ldapcert.pem /etc/openldap/certs/
 RUN cp /opt/docker/ldapserver.pem /etc/openldap/certs/
 RUN cp /opt/docker/cacert.pem /etc/ssl/certs/
 RUN chmod 400 /etc/openldap/certs/ldapserver.pem
-RUN cp /opt/docker/krb5.keytab /etc/
-RUN chmod 640 /etc/krb5.keytab
-RUN setfacl -m u:ldap:r /etc/krb5.keytab
-RUN cp /usr/share/doc/krb5-server-ldap/kerberos.schema /etc/openldap/schema/
 #COPY configs /etc/
-#make executable and execute
-RUN /usr/bin/chmod +x /scripts/startup-slapd.sh & bash /scripts/startup-slapd.sh ; exit 0
 #VOLUME ["/data"] 
 ENTRYPOINT ["/bin/bash","/scripts/entrypoint.sh"]
-EXPOSE 25 143 587 993 4190 8001 8002 
+#EXPOSE 25 143 587 993 4190 8001 8002 
