@@ -13,13 +13,13 @@ COPY scripts /scripts/
 COPY files /opt/docker
 RUN cp -f /opt/docker/sssd.conf /etc/sssd/
 RUN chmod 600 /etc/sssd/sssd.conf
-RUN authconfig --update --enablesssd --enablesssdauth ; exit 0
 RUN cp -f /opt/docker/authconfig /etc/sysconfig/
+RUN cp -f /opt/docker/krb5.conf /etc/
+RUN authconfig --update
 RUN cp -f /opt/docker/pam.d/* /etc/pam.d/
 RUN cp /opt/docker/supervisord.ini /etc/supervisord.d/
 RUN cp /opt/docker/ns* /etc/
 RUN cp -f /opt/docker/ldap.conf /etc/openldap/
-RUN cp -f /opt/docker/krb5.conf /etc/
 RUN cp -f /opt/docker/zabbix_agentd.conf /etc/
 #Copying tls files for SSL
 RUN cp /opt/docker/ldapcert.pem /etc/openldap/certs/
