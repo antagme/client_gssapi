@@ -26,7 +26,6 @@ RUN cp /opt/docker/ldapcert.pem /etc/openldap/certs/
 RUN cp /opt/docker/ldapserver.pem /etc/openldap/certs/
 RUN cp /opt/docker/cacert.pem /etc/ssl/certs/
 RUN chmod 400 /etc/openldap/certs/ldapserver.pem
-#COPY configs /etc/
 #VOLUME ["/data"] 
-ENTRYPOINT ["/bin/bash","/scripts/entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/supervisord", "-c","/etc/supervisord.d/supervisord.ini"]
 #EXPOSE 25 143 587 993 4190 8001 8002 
