@@ -7,7 +7,6 @@ RUN dnf install -y procps openldap openldap-clients krb5-workstation cyrus-sasl-
 RUN mkdir /opt/docker
 
 #Copy github to dockerhub build
-COPY scripts /scripts/
 COPY files /opt/docker
 RUN cp -f /opt/docker/krb5.conf /etc/
 RUN cp /opt/docker/supervisord.ini /etc/supervisord.d/
