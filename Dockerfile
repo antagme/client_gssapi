@@ -1,5 +1,5 @@
 FROM fedora
-MAINTAINER "Antonia Aguado Mercado" <nomail@gmail.com> 
+MAINTAINER "Pedro Romero Aguado" <pedroromeroaguado@gmail.com> 
 
 #installs
 RUN dnf install -y procps openldap openldap-clients krb5-workstation cyrus-sasl-gssapi cyrus-sasl-ldap nss-pam-ldapd supervisor ; exit 0
@@ -19,4 +19,3 @@ RUN cp /opt/docker/cacert.pem /etc/ssl/certs/
 RUN chmod 400 /etc/openldap/certs/ldapserver.pem
 #VOLUME ["/data"] 
 ENTRYPOINT ["/usr/bin/supervisord", "-c","/etc/supervisord.d/supervisord.ini"]
-#EXPOSE 25 143 587 993 4190 8001 8002 
